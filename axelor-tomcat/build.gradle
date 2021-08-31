@@ -1,0 +1,6 @@
+apply plugin: 'java'
+
+dependencies {
+  implementation libs.commons_cli
+  implementation libs.tomcat_embed
+}

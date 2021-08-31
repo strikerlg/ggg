@@ -1,0 +1,72 @@
+apply plugin: com.axelor.gradle.AxelorPlugin
+
+axelor {
+  title = "Axelor Core"
+}
+
+dependencies {
+  implementation libs.axelor_asm
+
+  testImplementation project(":axelor-test")
+
+  api project(":axelor-common")
+
+  // these dependencies will be excluded from war package
+  implementation libs.hotswap_agent
+  implementation project(":axelor-tomcat")
+
+  api libs.groovy
+  api libs.groovy_wslite
+
+  api libs.guava
+  api libs.guice
+  api libs.guice_servlet
+  api libs.guice_persist
+  api libs.guice_multibindings
+
+  implementation libs.byte_buddy
+
+  testImplementation libs.jdbc_hsqldb
+  implementation libs.jdbc_postgres
+  implementation libs.jdbc_mysql
+  api libs.hibernate
+  implementation libs.hibernate_search
+
+  implementation libs.apache_tika_core
+  runtime libs.apache_tika_parsers
+
+  implementation libs.flywaydb
+
+  api libs.resteasy
+  api libs.resteasy_guice
+  api libs.jackson_libs
+
+  api libs.ST4
+  api libs.apache_shiro
+  implementation libs.snakeyaml
+  api libs.xstream
+  api libs.opencsv
+  api libs.commons_csv
+
+  api libs.javax_servlet
+  api libs.javax_mail
+
+  implementation libs.axelor_el
+  implementation libs.jsoup
+
+  api libs.quartz
+
+  implementation libs.eclipselink_moxy
+
+  // pac4j
+  implementation libs.pac4j
+
+  // BIRT
+  api libs.birt_runtime
+
+  implementation libs.commons_jxpath
+  implementation libs.jcommander
+
+  testImplementation libs.greenmail
+  testImplementation libs.apache_ds
+}

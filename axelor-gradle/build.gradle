@@ -1,0 +1,76 @@
+apply plugin: 'groovy'
+apply plugin: 'java-gradle-plugin'
+
+configurations {
+  tomcat
+  tomcat.transitive false
+  provided
+  provided.transitive false
+}
+
+dependencies {
+  testImplementation libs.junit
+
+  implementation project(':axelor-common')
+
+  implementation libs.guava
+  implementation libs.commons_csv
+  implementation libs.plugin_license
+  implementation libs.snakeyaml
+
+  tomcat libs.hotswap_agent
+  tomcat project(":axelor-tomcat")
+
+  runtime project(":axelor-tomcat")
+
+  provided libs.javax_servlet
+  provided libs.javax_servlet_jsp
+}
+
+sourceSets {
+  main {
+    java.srcDirs = []
+    groovy.srcDirs = ['src/main/java', 'src/main/groovy']
+  }
+}
+
+spotless {
+  groovy {
+    excludeJava()
+    greclipse()
+    indentWithSpaces(2)
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+}
+
+gradlePlugin {
+  plugins {
+    appPlugin {
+      id = "com.axelor.app"
+      implementationClass = "com.axelor.gradle.AppPlugin"
+    }
+    appModulePlugin {
+      id = "com.axelor.app-module"
+      implementationClass = "com.axelor.gradle.ModulePlugin"
+    }
+  }
+}
+
+def generateLibsList(config) {
+  def outDir = new File(project.buildDir, "resources/main/com/axelor/gradle")
+  def outFile = new File(outDir, "${config}-libs.txt");
+  outDir.mkdirs()
+  outFile.text = ""
+  configurations.getByName(config).dependencies.each { outFile << "${it.group}:${it.name}:${it.version}\n" }
+}
+
+classes.doLast {
+  generateLibsList "tomcat"
+  generateLibsList "provided"
+}
+
+// prevent double publish
+tasks.withType(PublishToMavenRepository).all {
+  enabled =  name != 'publishMavenJavaPublicationToMavenRepository'
+}

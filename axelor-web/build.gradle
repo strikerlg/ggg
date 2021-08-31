@@ -1,0 +1,29 @@
+apply plugin: com.axelor.gradle.AxelorPlugin
+
+axelor {
+  title = "Axelor Web"
+}
+
+dependencies {
+
+  testImplementation project(":axelor-test")
+  implementation project(":axelor-core")
+
+  compileOnly libs.javax_servlet
+  compileOnly libs.javax_servlet_jsp
+
+  implementation libs.resteasy
+  implementation libs.resteasy_guice
+  implementation libs.resteasy_multipart
+  implementation libs.jackson_libs
+
+  implementation libs.apache_shiro
+  implementation libs.eclipselink_moxy
+  implementation libs.pac4j_core
+}
+
+jar {
+  into("webapp") {
+    from("src/main/webapp")
+  }
+}

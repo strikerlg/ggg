@@ -1,0 +1,6 @@
+include "axelor-common"
+include "axelor-tomcat"
+include "axelor-gradle"
+include "axelor-test"
+include "axelor-core"
+include "axelor-web"
